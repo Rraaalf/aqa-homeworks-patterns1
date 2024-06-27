@@ -1,14 +1,16 @@
 package test;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import data.DataGenerator;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
-import java.time.Duration;
 
-import data.DataGenerator;
+import java.time.Duration;
 
 import static com.codeborne.selenide.Selenide.*;
 
@@ -16,8 +18,13 @@ public class DateChangeTest {
 
     @BeforeEach
     void setup() {
-        Configuration.holdBrowserOpen = true;
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         open("http://localhost:9999");
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        SelenideLogger.removeListener("AllureSelenide");
     }
 
     @Test
